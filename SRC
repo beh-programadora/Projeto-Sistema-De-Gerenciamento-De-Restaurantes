@@ -1,0 +1,188 @@
+-- Criação do banco de dados
+CREATE DATABASE restaurantedb;
+USE restaurantedb;
+
+-- Criação da tabela Clientes
+CREATE TABLE Clientes (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20),
+    email VARCHAR(100)
+);
+
+-- Criação da tabela Mesas
+CREATE TABLE Mesas (
+    id_mesa INT AUTO_INCREMENT PRIMARY KEY,
+    numero_mesa INT NOT NULL,
+    capacidade INT NOT NULL
+);
+
+-- Criação da tabela Pedidos
+CREATE TABLE Pedidos (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT,
+    id_mesa INT,
+    data_pedido DATE NOT NULL,
+    total DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente),
+    FOREIGN KEY (id_mesa) REFERENCES Mesas(id_mesa)
+);
+
+-- Criação da tabela Itens_Pedido
+CREATE TABLE Itens_Pedido (
+    id_item INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT,
+    descricao_item VARCHAR(255) NOT NULL,
+    quantidade INT NOT NULL,
+    preco_unitario DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES Pedidos(id_pedido)
+);
+
+-- Inserção de dados de exemplo
+INSERT INTO Clientes (nome, telefone, email) VALUES
+('Maria Oliveira', '1234-5678', 'maria.oliveira@example.com'),
+('João Santos', '8765-4321', 'joao.santos@example.com'),
+('Ana Costa', '1357-2468', 'ana.costa@example.com');
+
+INSERT INTO Mesas (numero_mesa, capacidade) VALUES
+(1, 4),
+(2, 2),
+(3, 6),
+(4, 4),
+(5, 2);
+
+INSERT INTO Pedidos (id_cliente, id_mesa, data_pedido, total) VALUES
+(1, 1, '2024-09-01', 150.00),
+(2, 2, '2024-09-01', 80.00),
+(3, 3, '2024-09-02', 200.00);
+
+INSERT INTO Itens_Pedido (id_pedido, descricao_item, quantidade, preco_unitario) VALUES
+(1, 'Pizza Margherita', 2, 50.00),
+(1, 'Refrigerante', 3, 5.00),
+(2, 'Hambúrguer', 1, 30.00),
+(2, 'Batata Frita', 1, 10.00),
+(3, 'Espaguete à Bolonhesa', 1, 70.00),
+(3, 'Tiramisu', 1, 30.00);
+
+-- Inserção de dados fictícios na tabela Clientes
+INSERT INTO Clientes (nome, telefone, email) VALUES
+('Carlos Silva', '1111-2222', 'carlos.silva@example.com'),
+('Juliana Almeida', '3333-4444', 'juliana.almeida@example.com'),
+('Pedro Souza', '5555-6666', 'pedro.souza@example.com'),
+('Laura Ferreira', '7777-8888', 'laura.ferreira@example.com'),
+('Roberto Lima', '9999-0000', 'roberto.lima@example.com');
+
+-- Inserção de dados fictícios na tabela Mesas
+INSERT INTO Mesas (numero_mesa, capacidade) VALUES
+(6, 4),
+(7, 2),
+(8, 4),
+(9, 6),
+(10, 2);
+
+-- Inserção de dados fictícios na tabela Pedidos
+INSERT INTO Pedidos (id_cliente, id_mesa, data_pedido, total) VALUES
+(1, 6, '2024-09-03', 120.00),
+(2, 7, '2024-09-03', 75.00),
+(3, 8, '2024-09-04', 180.00),
+(4, 9, '2024-09-04', 220.00),
+(5, 10, '2024-09-05', 95.00);
+
+-- Inserção de dados fictícios na tabela Itens_Pedido
+INSERT INTO Itens_Pedido (id_pedido, descricao_item, quantidade, preco_unitario) VALUES
+(1, 'Salada Caesar', 1, 20.00),
+(1, 'Picanha Grelhada', 2, 50.00),
+(1, 'Água Mineral', 3, 5.00),
+(2, 'Sopa de Cebola', 1, 15.00),
+(2, 'Frango Grelhado', 1, 40.00),
+(2, 'Suco de Laranja', 1, 20.00),
+(3, 'Lasagna à Bolonhesa', 2, 60.00),
+(3, 'Vinho Tinto', 1, 50.00),
+(4, 'Churrasco Misto', 3, 70.00),
+(4, 'Caipirinha', 4, 15.00),
+(4, 'Sobremesa de Chocolate', 2, 25.00),
+(5, 'Mussarela Pizza', 1, 30.00),
+(5, 'Refrigerante', 2, 10.00);
+
+SELECT 
+    id_cliente AS ID_Cliente,
+    nome AS Nome,
+    telefone AS Telefone,
+    email AS Email
+FROM 
+    Clientes;
+
+SELECT 
+    id_mesa AS ID_Mesa,
+    numero_mesa AS Numero_Mesa,
+    capacidade AS Capacidade
+FROM 
+    Mesas;
+
+SELECT 
+    id_pedido AS ID_Pedido,
+    id_cliente AS ID_Cliente,
+    id_mesa AS ID_Mesa,
+    data_pedido AS Data_Pedido,
+    total AS Total
+FROM 
+    Pedidos;
+
+SELECT 
+    id_item AS ID_Item,
+    descricao_item AS Descricao_Item,
+    quantidade AS Quantidade,
+    preco_unitario AS Preco_Unitario,
+    (quantidade * preco_unitario) AS Total_Item
+FROM 
+    Itens_Pedido
+WHERE 
+    id_pedido = 1;  
+    
+    SELECT 
+    total AS Total_Pedido
+FROM 
+    Pedidos
+WHERE 
+    id_pedido = 1;  -- Substitua 1 pelo ID do pedido desejado
+
+UPDATE Clientes
+SET 
+    telefone = '1234-5678',
+    email = 'novoemail@exemplo.com'
+WHERE 
+    id_cliente = 1;
+
+UPDATE Mesas
+SET 
+    capacidade = 6
+WHERE 
+    id_mesa = 1;
+    
+    SELECT 
+    id_cliente AS ID_Cliente,
+    nome AS Nome,
+    telefone AS Telefone,
+    email AS Email
+FROM 
+    Clientes;
+
+SELECT 
+    id_mesa AS ID_Mesa,
+    numero_mesa AS Numero_Mesa,
+    capacidade AS Capacidade
+FROM 
+    Mesas;
+
+-- Remover a chave estrangeira existente (substitua o nome da chave estrangeira pelo nome real)
+ALTER TABLE Itens_Pedido
+DROP FOREIGN KEY Itens_Pedido_ibfk_1;
+
+-- Adicionar a chave estrangeira com a opção ON DELETE CASCADE
+ALTER TABLE Itens_Pedido
+ADD CONSTRAINT fk_pedido_item
+FOREIGN KEY (id_pedido) REFERENCES Pedidos(id_pedido)
+ON DELETE CASCADE;
+
+DELETE FROM Pedidos
+WHERE id_pedido = 1;
